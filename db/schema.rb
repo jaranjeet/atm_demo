@@ -22,6 +22,12 @@ ActiveRecord::Schema.define(version: 2020_09_03_044611) do
   end
 
   create_table "transactions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.float "amount"
+    t.integer "transaction_type"
+    t.bigint "account_id"
+    t.index ["account_id"], name: "index_transactions_on_account_id"
   end
 
   create_table "user_accounts", force: :cascade do |t|
