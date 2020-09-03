@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -12,16 +12,34 @@ const useStyles = makeStyles((theme)=>({
 
 export default function App() {
   const classes = useStyles;
+  const [userId, setUserId] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
+
+  const login = () => {
+    localStorage.setItem('userId', userId);
+    localStorage.setItem('accountNumber', accountNumber);
+    console.log(userId, ' ', accountNumber);
+  };
 
   return(
     <React.Fragment>
       <h1>ATM</h1>
-      <Grid container md={3} spacing={1}>
+      <Grid container item md={3} spacing={1}>
         <Grid item md={12}>
-          <TextField id='user_id' label='User ID' fullWidth/>
+          <TextField
+            id='user_id'
+            label='User ID'
+            fullWidth
+            onChange={ (event) => setUserId(event.target.value) }
+          />
         </Grid>
         <Grid item md={12}>
-          <TextField id='account' label='Account' fullWidth/>
+          <TextField
+            id='account'
+            label='Account'
+            fullWidth
+            onChange={ (event) => setAccountNumber(event.target.value) }
+          />
         </Grid>
         <Grid item md={12}>
           <Button
@@ -30,6 +48,7 @@ export default function App() {
             color='primary'
             fullWidth
             className={classes.submit}
+            onClick={ () => login() }
           >
             Submit
           </Button>
