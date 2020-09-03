@@ -8,10 +8,10 @@ default: &default
 
 development:
   <<: *default
-  database: atm_simulator_dev
+  database: atm_demo_dev
   host: localhost
 
 test:
   <<: *default
-  database: atm_simulator_test
+  database: atm_demo_test
   host: localhost
