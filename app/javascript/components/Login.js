@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Redirect } from 'react-router-dom';
+
 const useStyles = makeStyles((theme)=>({
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -21,9 +22,10 @@ export default function Login() {
     console.log(userId, ' ', accountNumber);
   };
 
-  if (true) {
-    console.log('here');
-    <Redirect to='/dashboards' />
+  if (localStorage.getItem('userId') && localStorage.getItem('accountNumber')) {
+    return(
+      <Redirect to='/dashboard' />
+    )
   }
 
   return(

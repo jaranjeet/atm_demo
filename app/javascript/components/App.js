@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Login from './Login';
+import Dashboard from './Dashboard';
 import {
   BrowserRouter as Router,
   Route,
@@ -15,6 +16,9 @@ export default function App() {
       <Switch>
         <Route exact path='/'>
           <Login />
+        </Route>
+        <Route exact path='/dashboard'>
+          <Dashboard />
         </Route>
       </Switch>
     </Router>
