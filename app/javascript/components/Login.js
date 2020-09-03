@@ -4,12 +4,15 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Redirect } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 
 const useStyles = makeStyles((theme)=>({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
 }));
+
+const history = createBrowserHistory();
 
 export default function Login() {
   const classes = useStyles;
@@ -20,6 +23,7 @@ export default function Login() {
     localStorage.setItem('userId', userId);
     localStorage.setItem('accountNumber', accountNumber);
     console.log(userId, ' ', accountNumber);
+    history.push('/dashboard');
   };
 
   if (localStorage.getItem('userId') && localStorage.getItem('accountNumber')) {

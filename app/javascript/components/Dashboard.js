@@ -3,6 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { Redirect } from 'react-router-dom';
 
 import Service from '../services/accountApi';
 import SimpleTable from './SimpleTable';
@@ -53,6 +54,17 @@ export default function Dashboard() {
     }).catch(error => {
       console.log(error);
     });
+  }
+
+  const logout = () => {
+    localStorage.removeItem('userId', );
+    localStorage.removeItem('accountNumber');
+  }
+
+  if (!localStorage.getItem('userId') || !localStorage.getItem('accountNumber')) {
+    return(
+      <Redirect to='/' />
+    )
   }
 
   return(
@@ -111,6 +123,17 @@ export default function Dashboard() {
           onClick={() => view_transactions()}
         >
           View Statement
+        </Button>
+      </Grid>
+      <Grid item xs={12} sm={8} md={5} elevation={6} >
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          onClick={() => logout()}
+        >
+          Logout
         </Button>
       </Grid>
       <Grid item xs={12} sm={8} md={5} elevation={6} >

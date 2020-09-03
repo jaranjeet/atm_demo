@@ -38,7 +38,7 @@ export default function SimpleTable({ rows }) {
                 {row.amount} Rs.
               </TableCell>
               <TableCell component="th" scope="row">
-                {row.transaction_type}
+                {row.transaction_type === 'credit' ? 'Cr' : 'Dr'}
               </TableCell>
             </TableRow>
           ))}
