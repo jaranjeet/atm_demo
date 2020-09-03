@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import Service from '../services/accountApi';
+import SimpleTable from './SimpleTable';
 
 export default function Dashboard() {
 
@@ -12,6 +13,7 @@ export default function Dashboard() {
   const [account_number, setAccountNumber] = useState(localStorage.getItem('accountNumber' || ''));
   const [account_balance, setAccountBalance] = useState('');
   const [error, setError] = useState('');
+  const [transactions, setTransactions] = useState([]);
 
   const deposit = () => {
     setError();
@@ -45,7 +47,7 @@ export default function Dashboard() {
   const view_transactions = () => {
     setError();
     Service.view_transactions({account_number: account_number}).then(response =>{
-      setTransactions(transactions.push(response.data.statement));
+      setTransactions([...response.data.statement]);
       console.log(response);
       console.log(transactions);
     }).catch(error => {
@@ -125,6 +127,11 @@ export default function Dashboard() {
           <Typography component="h5" variant="h6" color='error'>
             { error }
           </Typography>
+        }
+      </Grid>
+      <Grid item md={12} >
+        {
+          transactions.length > 0 && <SimpleTable rows={ transactions }/>
         }
       </Grid>
     </Grid>
