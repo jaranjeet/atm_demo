@@ -16,6 +16,9 @@ ActiveRecord::Schema.define(version: 2020_09_03_044611) do
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
+    t.float "balance", default: 0.0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "transactions", force: :cascade do |t|
