@@ -11,24 +11,29 @@ export default function Dashboard() {
   const [amount, setAmount] = useState(0);
   const [account_number, setAccountNumber] = useState(localStorage.getItem('accountNumber' || ''));
   const [account_balance, setAccountBalance] = useState('');
+  const [error, setError] = useState('');
 
   const deposit = () => {
+    setError();
     Service.deposit({amount: amount, account_number: account_number}).then(response => {
       console.log(response);
     }).catch(error => {
+      setError(error);
       console.log(error);
     });
   }
 
   const withdraw = () => {
+    setError();
     Service.withdraw({amount: amount, account_number: account_number}).then(response => {
       console.log(response);
     }).catch(error => {
-      console.log(error);
+      setError(error.response.data.message);
     });
   }
 
   const check_balance = () => {
+    setError();
     Service.check_balance({account_number: account_number}).then(response => {
       console.log(response);
       setAccountBalance(response.data.balance);
@@ -38,6 +43,7 @@ export default function Dashboard() {
   }
 
   const view_transactions = () => {
+    setError();
     Service.view_transactions({account_number: account_number}).then(response =>{
       setTransactions(transactions.push(response.data.statement));
       console.log(response);
@@ -114,7 +120,12 @@ export default function Dashboard() {
         }
       </Grid>
       <Grid item xs={12} sm={8} md={5} elevation={6} >
-        
+        {
+          error &&
+          <Typography component="h5" variant="h6" color='error'>
+            { error }
+          </Typography>
+        }
       </Grid>
     </Grid>
   )

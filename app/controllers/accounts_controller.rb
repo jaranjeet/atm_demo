@@ -5,7 +5,6 @@ class AccountsController < ApplicationController
   attr_reader :account
   def deposit
     Account.transaction do
-      binding.pry
       account.update!(balance: balance + amount)
       Transaction.create!(account: account, amount: amount, transaction_type: credit)
     end
