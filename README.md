@@ -68,13 +68,13 @@ test:
 
 ```
 
-2. Database creation:
+## Database creation:
 ```
 rake db:create
 rake db:migrate
 ```
 
-3. Database initialization:
+## Database initialization:
 ```
 rake db:seed
 ```
