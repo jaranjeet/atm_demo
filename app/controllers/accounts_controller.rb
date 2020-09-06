@@ -1,5 +1,6 @@
 class InsufficientBalanceError < StandardError; end
 class InvalidInputError < StandardError; end
+class InsufficientAmountError < StandardError; end
 class AccountsController < ApplicationController
   before_action :set_account, only: [:deposit, :withdraw, :check_balance, :view_transactions]
   attr_reader :account
@@ -38,8 +39,17 @@ class AccountsController < ApplicationController
   end
 
   def amount
-    raise InvalidInputError, 'Provide valid amount' unless params[:amount]&.scan(/\D/)&.empty?
+    raise InvalidInputError, 'Provide valid amount' unless valid_amount?
+    raise InsufficientAmountError, 'Insufficient amount' if insufficient_amount?
     params[:amount].to_f
+  end
+
+  def valid_amount?
+    params[:amount]&.scan(/\D/)&.empty?
+  end
+
+  def insufficient_amount?
+    params[:amount]&.to_f === 0.0
   end
 
   def balance
