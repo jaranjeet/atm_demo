@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router';
 
 import Service from '../services/accountApi';
 import SimpleTable from './SimpleTable';
@@ -15,6 +16,7 @@ export default function Dashboard() {
   const [account_balance, setAccountBalance] = useState('');
   const [error, setError] = useState('');
   const [transactions, setTransactions] = useState([]);
+  const history = useHistory();
 
   const deposit = () => {
     setError();
@@ -59,6 +61,7 @@ export default function Dashboard() {
   const logout = () => {
     localStorage.removeItem('userId', );
     localStorage.removeItem('accountNumber');
+    history.push('/');
   }
 
   if (!localStorage.getItem('userId') || !localStorage.getItem('accountNumber')) {
