@@ -7,7 +7,8 @@ import { Redirect } from 'react-router-dom';
 import { useHistory } from 'react-router';
 
 import Service from '../services/accountApi';
-import SimpleTable from './SimpleTable';
+import SimpleTable from './common/SimpleTable';
+import NotificationBar from './common/NotificationBar';
 
 export default function Dashboard() {
 
@@ -17,13 +18,22 @@ export default function Dashboard() {
   const [error, setError] = useState('');
   const [transactions, setTransactions] = useState([]);
   const history = useHistory();
+  const [notificationBarStatus, setNotificationBarStatus] = useState(false);
+  const [notificationText, setNotificationText] = useState('');
+  const [severity, setSeverity] = useState('');
 
   const deposit = () => {
     setError();
     Service.deposit({amount: amount, account_number: account_number}).then(response => {
       console.log(response);
+      setNotificationText(response.data.message);
+      setSeverity('success');
+      setNotificationBarStatus(true);
     }).catch(error => {
       setError(error.response.data.message);
+      setNotificationText(error.response.data.message);
+      setSeverity('error');
+      setNotificationBarStatus(true);
       console.log('error', error);
       console.log('error message', error.response.data.message);
     });
