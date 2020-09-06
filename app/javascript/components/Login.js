@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Redirect } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme)=>({
   submit: {
@@ -12,13 +13,13 @@ const useStyles = makeStyles((theme)=>({
   },
 }));
 
-const history = createBrowserHistory();
+//const history = createBrowserHistory();
 
 export default function Login() {
   const classes = useStyles;
   const [userId, setUserId] = useState('');
   const [accountNumber, setAccountNumber] = useState('');
-
+  const history = useHistory();
   const login = () => {
     localStorage.setItem('userId', userId);
     localStorage.setItem('accountNumber', accountNumber);
