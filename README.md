@@ -69,12 +69,14 @@ test:
 ```
 
 ## Database creation:
+Run following commands to create database required for this app.
 ```
 rake db:create
 rake db:migrate
 ```
 
 ## Database initialization:
+Run following command to initialize database of this app.
 ```
 rake db:seed
 ```
