@@ -38,7 +38,7 @@ class AccountsController < ApplicationController
   end
 
   def amount
-    raise InvalidInput unless params[:amount].is_a? Numeric
+    raise InvalidInput 'Provide valid amount' unless params[:amount].is_a? Numeric
     params[:amount].to_f
   end
 
