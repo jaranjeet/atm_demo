@@ -3,6 +3,9 @@ class InsufficientBalanceError < StandardError; end
 class AccountsController < ApplicationController
   before_action :set_account, only: [:deposit, :withdraw, :check_balance, :view_transactions]
   attr_reader :account
+
+  rescue_from StandardError, with: :render_error_response
+
   def deposit
     Account.transaction do
       account.update!(balance: balance + amount)
@@ -14,13 +17,10 @@ class AccountsController < ApplicationController
   def withdraw
     raise InsufficientBalanceError, 'Insufficient Balance!' if amount > balance
     Account.transaction do
-      account.update(balance: balance - amount)
-      Transaction.create(account: account, amount: amount, transaction_type: debit)
+      account.update!(balance: balance - amount)
+      Transaction.create!(account: account, amount: amount, transaction_type: debit)
     end
     render json: { message: 'Amount withdrawn' }, status: :ok
-  rescue StandardError => error
-    Rails.logger.error(error.message)
-    render json: { message: error.message }, status: :unprocessable_entity
   end
 
   def check_balance
@@ -51,5 +51,10 @@ class AccountsController < ApplicationController
 
   def debit
     Transaction.transaction_types[:debit]
+  end
+
+  def render_error_response
+    Rails.logger.error(error.message)
+    render json: { message: error.message }, status: :unprocessable_entity
   end
 end

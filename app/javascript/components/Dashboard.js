@@ -24,7 +24,8 @@ export default function Dashboard() {
       console.log(response);
     }).catch(error => {
       setError(error);
-      console.log(error);
+      console.log('error', error);
+      console.log('error message', error.response.data.message);
     });
   }
 
@@ -34,6 +35,7 @@ export default function Dashboard() {
       console.log(response);
     }).catch(error => {
       setError(error.response.data.message);
+      console.log('error message', error.response.data.message);
     });
   }
 
