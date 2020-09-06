@@ -7,7 +7,7 @@ import { Redirect } from 'react-router-dom';
 import { useHistory } from 'react-router';
 
 import Service from '../services/accountApi';
-import SimpleTable from './common/SimpleTable';
+import SimpleTable from './SimpleTable';
 
 export default function Dashboard() {
 
