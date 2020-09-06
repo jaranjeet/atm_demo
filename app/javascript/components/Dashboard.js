@@ -43,8 +43,14 @@ export default function Dashboard() {
     setError();
     Service.withdraw({amount: amount, account_number: account_number}).then(response => {
       console.log(response);
+      setNotificationText(response.data.message);
+      setSeverity('success');
+      setNotificationBarStatus(true);
     }).catch(error => {
       setError(error.response.data.message);
+      setNotificationText(error.response.data.message);
+      setSeverity('error');
+      setNotificationBarStatus(true);
       console.log('error message', error.response.data.message);
     });
   }
@@ -55,6 +61,10 @@ export default function Dashboard() {
       console.log(response);
       setAccountBalance(response.data.balance);
     }).catch(error => {
+      setError(error.response.data.message);
+      setNotificationText(error.response.data.message);
+      setSeverity('error');
+      setNotificationBarStatus(true);
       console.log(error);
     });
   }
@@ -66,6 +76,10 @@ export default function Dashboard() {
       console.log(response);
       console.log(transactions);
     }).catch(error => {
+      setError(error.response.data.message);
+      setNotificationText(error.response.data.message);
+      setSeverity('error');
+      setNotificationBarStatus(true);
       console.log(error);
     });
   }
@@ -83,95 +97,103 @@ export default function Dashboard() {
   }
 
   return(
-    <Grid container component="main" spacing={3} justify="space-between">
-      <Grid item xs={12} sm={8} md={5} elevation={6} >
-        <TextField
-          name='amount'
-          label='Enter Amount'
-          required
-          fullWidth
-          onChange={ (e) => setAmount(e.target.value) }
-        />
+    <React.Fragment>
+      <NotificationBar
+        notificationBarOpen={ notificationBarStatus }
+        handleClose={ () => setNotificationBarStatus(false) }
+        message={ notificationText }
+        severity={ severity }
+      />
+      <Grid container component="main" spacing={3} justify="space-between">
+        <Grid item xs={12} sm={8} md={5} elevation={6} >
+          <TextField
+            name='amount'
+            label='Enter Amount'
+            required
+            fullWidth
+            onChange={ (e) => setAmount(e.target.value) }
+          />
+        </Grid>
+        <Grid item xs={12} sm={8} md={5} elevation={6} >
+          
+        </Grid>
+        <Grid item xs={12} sm={8} md={5} elevation={6} >
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={ () => deposit()}
+          >
+            Deposit
+          </Button>
+        </Grid>
+        <Grid item xs={12} sm={8} md={5} elevation={6} >
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={ () => withdraw()}
+          >
+            Withdraw
+          </Button>
+        </Grid>
+        <Grid item xs={12} sm={8} md={5} elevation={6} >
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={() => check_balance()}
+          >
+            View Balance
+          </Button>
+        </Grid>
+        <Grid item xs={12} sm={8} md={5} elevation={6} >
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={() => view_transactions()}
+          >
+            View Statement
+          </Button>
+        </Grid>
+        <Grid item xs={12} sm={8} md={5} elevation={6} >
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={() => logout()}
+          >
+            Logout
+          </Button>
+        </Grid>
+        <Grid item xs={12} sm={8} md={5} elevation={6} >
+          {
+            account_balance && 
+            <Typography component="h5" variant="h6">
+              Account Balance: { account_balance } Rs.
+            </Typography>
+          }
+        </Grid>
+        <Grid item xs={12} sm={8} md={5} elevation={6} >
+          {
+            error &&
+            <Typography component="h5" variant="h6" color='error'>
+              { error }
+            </Typography>
+          }
+        </Grid>
+        <Grid item md={12} >
+          {
+            transactions.length > 0 && <SimpleTable rows={ transactions }/>
+          }
+        </Grid>
       </Grid>
-      <Grid item xs={12} sm={8} md={5} elevation={6} >
-        
-      </Grid>
-      <Grid item xs={12} sm={8} md={5} elevation={6} >
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          onClick={ () => deposit()}
-        >
-          Deposit
-        </Button>
-      </Grid>
-      <Grid item xs={12} sm={8} md={5} elevation={6} >
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          onClick={ () => withdraw()}
-        >
-          Withdraw
-        </Button>
-      </Grid>
-      <Grid item xs={12} sm={8} md={5} elevation={6} >
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          onClick={() => check_balance()}
-        >
-          View Balance
-        </Button>
-      </Grid>
-      <Grid item xs={12} sm={8} md={5} elevation={6} >
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          onClick={() => view_transactions()}
-        >
-          View Statement
-        </Button>
-      </Grid>
-      <Grid item xs={12} sm={8} md={5} elevation={6} >
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          onClick={() => logout()}
-        >
-          Logout
-        </Button>
-      </Grid>
-      <Grid item xs={12} sm={8} md={5} elevation={6} >
-        {
-          account_balance && 
-          <Typography component="h5" variant="h6">
-            Account Balance: { account_balance } Rs.
-          </Typography>
-        }
-      </Grid>
-      <Grid item xs={12} sm={8} md={5} elevation={6} >
-        {
-          error &&
-          <Typography component="h5" variant="h6" color='error'>
-            { error }
-          </Typography>
-        }
-      </Grid>
-      <Grid item md={12} >
-        {
-          transactions.length > 0 && <SimpleTable rows={ transactions }/>
-        }
-      </Grid>
-    </Grid>
+    </React.Fragment>
   )
 }
