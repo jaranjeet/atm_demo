@@ -23,49 +23,37 @@ export default function Dashboard() {
   const [severity, setSeverity] = useState('');
 
   const deposit = () => {
-    setError();
     Service.deposit({amount: amount, account_number: account_number}).then(response => {
-      console.log(response);
       setNotificationText(response.data.message);
       setSeverity('success');
       setNotificationBarStatus(true);
     }).catch(error => {
-      setError(error.response.data.message);
       setNotificationText(error.response.data.message);
       setSeverity('error');
       setNotificationBarStatus(true);
-      console.log('error', error);
-      console.log('error message', error.response.data.message);
     });
   }
 
   const withdraw = () => {
-    setError();
     Service.withdraw({amount: amount, account_number: account_number}).then(response => {
-      console.log(response);
       setNotificationText(response.data.message);
       setSeverity('success');
       setNotificationBarStatus(true);
     }).catch(error => {
-      setError(error.response.data.message);
       setNotificationText(error.response.data.message);
       setSeverity('error');
       setNotificationBarStatus(true);
-      console.log('error message', error.response.data.message);
     });
   }
 
   const check_balance = () => {
     setError();
     Service.check_balance({account_number: account_number}).then(response => {
-      console.log(response);
       setAccountBalance(response.data.balance);
     }).catch(error => {
-      setError(error.response.data.message);
       setNotificationText(error.response.data.message);
       setSeverity('error');
       setNotificationBarStatus(true);
-      console.log(error);
     });
   }
 
@@ -73,14 +61,11 @@ export default function Dashboard() {
     setError();
     Service.view_transactions({account_number: account_number}).then(response =>{
       setTransactions([...response.data.statement]);
-      console.log(response);
-      console.log(transactions);
     }).catch(error => {
       setError(error.response.data.message);
       setNotificationText(error.response.data.message);
       setSeverity('error');
       setNotificationBarStatus(true);
-      console.log(error);
     });
   }
 
