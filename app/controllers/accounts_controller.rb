@@ -54,7 +54,7 @@ class AccountsController < ApplicationController
     Transaction.transaction_types[:debit]
   end
 
-  def render_error_response
+  def render_error_response error
     Rails.logger.error(error.message)
     render json: { message: error.message }, status: :unprocessable_entity
   end
