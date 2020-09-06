@@ -5,6 +5,11 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Redirect } from 'react-router-dom';
 import { useHistory } from 'react-router';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 import Service from '../services/accountApi';
 import SimpleTable from './common/SimpleTable';
@@ -21,6 +26,7 @@ export default function Dashboard() {
   const [notificationBarStatus, setNotificationBarStatus] = useState(false);
   const [notificationText, setNotificationText] = useState('');
   const [severity, setSeverity] = useState('');
+  const [startDate, setStartDate] = useState(new Date(''));
 
   const deposit = () => {
     Service.deposit({amount: amount, account_number: account_number}).then(response => {
@@ -75,6 +81,12 @@ export default function Dashboard() {
     history.push('/');
   }
 
+  const handleDateChange = (date) => {
+    setStartDate(date);
+    console.log('date', date);
+    console.log('start date', startDate);
+  };
+
   if (!localStorage.getItem('userId') || !localStorage.getItem('accountNumber')) {
     return(
       <Redirect to='/' />
@@ -100,7 +112,21 @@ export default function Dashboard() {
           />
         </Grid>
         <Grid item xs={12} sm={8} md={5} elevation={6} >
-          
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              disableToolbar
+              variant="inline"
+              format="MM/dd/yyyy"
+              margin="normal"
+              id="date-picker-inline"
+              label="Date picker inline"
+              value={startDate}
+              onChange={handleDateChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />
+          </MuiPickersUtilsProvider>
         </Grid>
         <Grid item xs={12} sm={8} md={5} elevation={6} >
           <Button
