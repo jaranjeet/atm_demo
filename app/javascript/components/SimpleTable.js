@@ -24,8 +24,8 @@ export default function SimpleTable({ rows }) {
         <TableHead>
           <TableRow>
             <TableCell>Date</TableCell>
-            <TableCell align="right">Amount</TableCell>
-            <TableCell align="right">Transaction Type</TableCell>
+            <TableCell>Amount</TableCell>
+            <TableCell>Transaction Type</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

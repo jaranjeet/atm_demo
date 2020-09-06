@@ -23,7 +23,7 @@ export default function Dashboard() {
     Service.deposit({amount: amount, account_number: account_number}).then(response => {
       console.log(response);
     }).catch(error => {
-      setError(error);
+      setError(error.response.data.message);
       console.log('error', error);
       console.log('error message', error.response.data.message);
     });

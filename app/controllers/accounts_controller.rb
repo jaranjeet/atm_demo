@@ -1,5 +1,5 @@
 class InsufficientBalanceError < StandardError; end
-
+class InvalidInput < StandardError; end
 class AccountsController < ApplicationController
   before_action :set_account, only: [:deposit, :withdraw, :check_balance, :view_transactions]
   attr_reader :account
@@ -38,6 +38,7 @@ class AccountsController < ApplicationController
   end
 
   def amount
+    raise InvalidInput unless params[:amount].is_a? Numeric
     params[:amount].to_f
   end
 
